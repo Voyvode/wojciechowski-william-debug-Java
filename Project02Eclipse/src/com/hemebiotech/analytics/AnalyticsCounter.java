@@ -6,8 +6,8 @@ public class AnalyticsCounter {
 	private static int headacheCount = 0;
 	private static int rashCount = 0;
 	private static int pupilCount = 0;
-	
-	public static void main(String args[]) {
+
+	public static void getSymptoms() {
 		try (var reader = new BufferedReader(new FileReader("symptoms.txt"))) {
 			String line = reader.readLine();
 
@@ -31,7 +31,9 @@ public class AnalyticsCounter {
 		} catch (IOException e) {
 			System.err.println("IO error while reading: " + e.getMessage());
 		}
+	}
 
+	public static void writeSymptoms() {
 		try (var writer = new FileWriter("result.out")) {
 			writer.write("headache: " + headacheCount + "\n");
 			writer.write("rash: " + rashCount + "\n");
@@ -39,5 +41,10 @@ public class AnalyticsCounter {
 		} catch (IOException e) {
 			System.err.println("Can’t write to " + e.getMessage());
 		}
+	}
+
+	public static void main(String args[]) {
+		getSymptoms();
+		writeSymptoms();
 	}
 }
