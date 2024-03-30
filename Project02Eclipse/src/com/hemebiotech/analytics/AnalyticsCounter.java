@@ -1,50 +1,46 @@
 package com.hemebiotech.analytics;
 
-import java.io.*;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 public class AnalyticsCounter {
-	private static int headacheCount = 0;
-	private static int rashCount = 0;
-	private static int pupilCount = 0;
 
-	public static void getSymptoms() {
-		try (var reader = new BufferedReader(new FileReader("symptoms.txt"))) {
-			String line = reader.readLine();
+	private final ISymptomReader symptomReader;
+	private final ISymptomWriter symptomWriter;
 
-			int i = 0;
-			while (line != null) {
-				i++;
-				System.out.println("symptom from file: " + line);
-				if (line.equals("headache")) {
-					headacheCount++;
-					System.out.println("number of headaches: " + headacheCount);
-				} else if (line.equals("rash")) {
-					rashCount++;
-				} else if (line.equals("dilated pupils")) {
-					pupilCount++;
-				}
-
-				line = reader.readLine();
-			}
-		} catch (FileNotFoundException e) {
-			System.err.println("Can’t read " + e.getMessage());
-		} catch (IOException e) {
-			System.err.println("IO error while reading: " + e.getMessage());
-		}
+	public AnalyticsCounter(ISymptomReader symptomReader, ISymptomWriter symptomWriter) {
+		this.symptomReader = symptomReader;
+		this.symptomWriter = symptomWriter;
 	}
 
-	public static void writeSymptoms() {
-		try (var writer = new FileWriter("result.out")) {
-			writer.write("headache: " + headacheCount + "\n");
-			writer.write("rash: " + rashCount + "\n");
-			writer.write("dilated pupils: " + pupilCount + "\n");
-		} catch (IOException e) {
-			System.err.println("Can’t write to " + e.getMessage());
-		}
+	public List<String> getSymptoms() {
+		return symptomReader.getSymptoms();
+	}
+
+	public Map<String, Integer> countSymptoms(List<String> symptoms) {
+		return symptoms.stream()
+				.collect(Collectors.groupingBy(symptom -> symptom, Collectors.summingInt(symptom -> 1)));
+	}
+
+	public Map<String, Integer> sortSymptoms(Map<String, Integer> symptoms) {
+		return new TreeMap<>(symptoms);
+	}
+
+	public void writeSymptoms(Map<String, Integer> symptoms) {
+		symptomWriter.writeSymptoms(symptoms);
 	}
 
 	public static void main(String args[]) {
-		getSymptoms();
-		writeSymptoms();
+		var sr = new ReadSymptomDataFromFile("symptoms.txt");
+		var sw = new WriteSymptomDataToFile("result.out");
+		var analytics = new AnalyticsCounter(sr, sw);
+
+		var list = analytics.getSymptoms();
+		var map = analytics.countSymptoms(list);
+		var sortedMap = analytics.sortSymptoms(map);
+		analytics.writeSymptoms(sortedMap);
 	}
+
 }
