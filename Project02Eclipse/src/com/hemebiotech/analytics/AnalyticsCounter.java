@@ -32,15 +32,11 @@ public class AnalyticsCounter {
 		symptomWriter.writeSymptoms(symptoms);
 	}
 
-	public static void main(String args[]) {
-		var sr = new ReadSymptomDataFromFile("symptoms.txt");
-		var sw = new WriteSymptomDataToFile("result.out");
-		var analytics = new AnalyticsCounter(sr, sw);
-
-		var list = analytics.getSymptoms();
-		var map = analytics.countSymptoms(list);
-		var sortedMap = analytics.sortSymptoms(map);
-		analytics.writeSymptoms(sortedMap);
+	public void writeSymptoms() {
+		var list = getSymptoms();
+		var map = countSymptoms(list);
+		var sortedMap = sortSymptoms(map);
+		writeSymptoms(sortedMap);
 	}
 
 }
