@@ -7,10 +7,10 @@ import java.util.stream.Collectors;
 
 public class AnalyticsCounter {
 
-	private final ISymptomReader symptomReader;
-	private final ISymptomWriter symptomWriter;
+	private final SymptomReader symptomReader;
+	private final SymptomWriter symptomWriter;
 
-	public AnalyticsCounter(ISymptomReader symptomReader, ISymptomWriter symptomWriter) {
+	public AnalyticsCounter(SymptomReader symptomReader, SymptomWriter symptomWriter) {
 		this.symptomReader = symptomReader;
 		this.symptomWriter = symptomWriter;
 	}

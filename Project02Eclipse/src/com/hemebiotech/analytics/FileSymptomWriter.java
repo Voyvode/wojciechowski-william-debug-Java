@@ -4,11 +4,11 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Map;
 
-public class WriteSymptomDataToFile implements ISymptomWriter {
+public class FileSymptomWriter implements SymptomWriter {
 
 	private final String filepath;
 
-	public WriteSymptomDataToFile(String filepath) {
+	public FileSymptomWriter(String filepath) {
 		this.filepath = filepath;
 	}
 

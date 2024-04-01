@@ -10,7 +10,7 @@ import java.util.Map;
  * The implementation does not need to order the list
  *
  */
-public interface ISymptomWriter {
+public interface SymptomWriter {
 
 	void writeSymptoms(Map<String, Integer> symptoms);
 
