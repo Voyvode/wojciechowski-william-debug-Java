@@ -3,15 +3,17 @@ package com.hemebiotech.analytics;
 import java.util.Map;
 
 /**
- * Anything that will read symptom data from a source
- * The important part is, the return value from the operation, which is a list of strings,
- * that may contain many duplications
+ * The {@code SymptomWriter} interface provides a method to write symptoms somewhere.<p>
  *
- * The implementation does not need to order the list
- *
+ * Its implementation manages the formatting and writing process to a specific destination.
  */
 public interface SymptomWriter {
 
+	/**
+	 * Writes the processed symptoms to a destination.
+	 *
+	 * @param symptoms a map containing the symptoms as keys and their counts as values
+	 */
 	void writeSymptoms(Map<String, Integer> symptoms);
 
 }
