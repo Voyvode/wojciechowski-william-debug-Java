@@ -4,9 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * {@code FileSymptomReader} implements the {@code SymptomReader} interface.
@@ -34,17 +33,15 @@ public class FileSymptomReader implements SymptomReader {
 	 */
 	@Override
 	public List<String> getSymptoms() {
-		var list = new ArrayList<String>();
-
 		try (var lines = Files.lines(Paths.get(filepath))) {
-			list.addAll(lines.collect(Collectors.toCollection(ArrayList::new)));
+			return lines.toList();
 		} catch (FileNotFoundException e) {
 			System.err.println("Can't read " + e.getMessage());
 		} catch (IOException e) {
 			System.err.println("IO error while reading: " + e.getMessage());
 		}
 
-		return list;
+		return Collections.emptyList();
 	}
 
 }
